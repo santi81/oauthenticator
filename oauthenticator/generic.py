@@ -43,7 +43,6 @@ class GenericOAuthenticator(OAuthenticator):
 
     f = open('myfile', 'w')
     f.write('Making Token Request\n')  # python will convert \n to os.linesep
-    f.close()
 
     login_service = "GenericOAuth2"
 
@@ -87,23 +86,20 @@ class GenericOAuthenticator(OAuthenticator):
         params = dict(
             redirect_uri=self.get_callback_url(handler),
             code=code,
-            grant_type='authorization_code'
+            grant_type='authorization_code',
+	    client_id=self.client_id,
+            client_secret=self.client_secret
         )
 
         url = url_concat(self.token_url, params)
 
-        b64key = base64.b64encode(
-            bytes(
-                "{}:{}".format(self.client_id, self.client_secret),
-                "utf8"
-            )
-        )
 
         headers = {
             "Accept": "application/json",
-            "User-Agent": "JupyterHub",
-            "Authorization": "Basic {}".format(b64key.decode("utf8"))
+            "User-Agent": "JupyterHub"
         }
+        f.write('Request URL for the Token\n')
+        f.write(url)
 
         req = HTTPRequest(url,
                           method="POST",
@@ -117,7 +113,8 @@ class GenericOAuthenticator(OAuthenticator):
 
         access_token = resp_json['access_token']
         token_type = resp_json['token_type']
-
+        f.write('Access Token Successful')
+        f.write(access_token)
         # Determine who the logged in user is
         headers = {
             "Accept": "application/json",
