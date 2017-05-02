@@ -19,10 +19,17 @@ from traitlets import Unicode, Dict
 
 from .oauth2 import OAuthLoginHandler, OAuthenticator
 
+# Support github.com and github enterprise installations
+GITHUB_HOST = os.environ.get('GITHUB_HOST') or 'github.com'
+if GITHUB_HOST == 'github.com':
+    GITHUB_API = 'api.github.com/user'
+else:
+    GITHUB_API = '%s/api/v3/user' % GITHUB_HOST
+
 
 class GenericEnvMixin(OAuth2Mixin):
-    _OAUTH_ACCESS_TOKEN_URL = os.environ.get('OAUTH2_TOKEN_URL', '')
-    _OAUTH_AUTHORIZE_URL = os.environ.get('OAUTH2_AUTHORIZE_URL', '')
+    _OAUTH_AUTHORIZE_URL = "https://%s/login/oauth/authorize" % GITHUB_HOST
+    _OAUTH_ACCESS_TOKEN_URL = "https://%s/login/oauth/access_token" % GITHUB_HOST
 
 
 class GenericLoginHandler(OAuthLoginHandler, GenericEnvMixin):
