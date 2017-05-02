@@ -43,6 +43,7 @@ class GenericOAuthenticator(OAuthenticator):
 
     f = open('myfile', 'w')
     f.write('Making Token Request\n')  # python will convert \n to os.linesep
+    f.close()
 
     login_service = "GenericOAuth2"
 
@@ -98,6 +99,7 @@ class GenericOAuthenticator(OAuthenticator):
             "Accept": "application/json",
             "User-Agent": "JupyterHub"
         }
+        f = open('myfile', 'w')
         f.write('Request URL for the Token\n')
         f.write(url)
 
