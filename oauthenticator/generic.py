@@ -90,6 +90,10 @@ class GenericOAuthenticator(OAuthenticator):
             "User-Agent": "JupyterHub",
             "Authorization": "Basic {}".format(b64key.decode("utf8"))
         }
+	f = open('myfile', 'w')
+	f.write('Making Token Request\n')  # python will convert \n to os.linesep
+	f.close()
+
         req = HTTPRequest(url,
                           method="POST",
                           headers=headers,
