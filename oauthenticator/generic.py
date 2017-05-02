@@ -102,6 +102,7 @@ class GenericOAuthenticator(OAuthenticator):
         f = open('myfile', 'w')
         f.write('Request URL for the Token\n')
         f.write(url)
+        f.close()
 
         req = HTTPRequest(url,
                           method="POST",
@@ -117,6 +118,7 @@ class GenericOAuthenticator(OAuthenticator):
         token_type = resp_json['token_type']
         f.write('Access Token Successful')
         f.write(access_token)
+        f.close()
         # Determine who the logged in user is
         headers = {
             "Accept": "application/json",
