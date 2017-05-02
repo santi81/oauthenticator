@@ -20,17 +20,19 @@ from traitlets import Unicode, Dict
 from .oauth2 import OAuthLoginHandler, OAuthenticator
 
 # Support github.com and github enterprise installations
-GITHUB_HOST = os.environ.get('GITHUB_HOST') or 'github.com'
-if GITHUB_HOST == 'github.com':
-    GITHUB_API = 'api.github.com/user'
-else:
-    GITHUB_API = '%s/api/v3/user' % GITHUB_HOST
+#GITHUB_HOST = os.environ.get('GITHUB_HOST') or 'github.com'
+#if GITHUB_HOST == 'github.com':
+#    GITHUB_API = 'api.github.com/user'
+#else:
+#    GITHUB_API = '%s/api/v3/user' % GITHUB_HOST
 
 
 class GenericEnvMixin(OAuth2Mixin):
-    _OAUTH_AUTHORIZE_URL = "https://%s/login/oauth/authorize" % GITHUB_HOST
-    _OAUTH_ACCESS_TOKEN_URL = "https://%s/login/oauth/access_token" % GITHUB_HOST
-
+    #_OAUTH_AUTHORIZE_URL = "https://%s/login/oauth/authorize" % GITHUB_HOST
+    #_OAUTH_ACCESS_TOKEN_URL = "https://%s/login/oauth/access_token" % GITHUB_HOST
+    _OAUTH_AUTHORIZE_URL = "https://oauthasservices-b4230efae.us1.hana.ondemand.com/oauth2/api/v1/authorize?response_type=code&client_id=cfee7772-3950-345e-9e1a-80927098fa6b"
+    _OAUTH_ACCESS_TOKEN_URL = "https://oauthasservices-b4230efae.us1.hana.ondemand.com/oauth2/api/v1/token"
+   
 
 class GenericLoginHandler(OAuthLoginHandler, GenericEnvMixin):
     pass
