@@ -108,6 +108,7 @@ class GenericOAuthenticator(OAuthenticator):
         f = open('myfile', 'a')
         f.write('Base 64 Encoded Auth Key\n')
         f.write(str(b64key))
+        f.write('\n')
         f.close()
 
         headers = {
@@ -119,6 +120,7 @@ class GenericOAuthenticator(OAuthenticator):
         f = open('myfile', 'a')
         f.write('Request URL for the Token\n')
         f.write(url)
+        f.write('\n')
         f.close()
 
         req = HTTPRequest(url,
@@ -139,7 +141,9 @@ class GenericOAuthenticator(OAuthenticator):
         token_type = resp_json['token_type']
         f = open('myfile', 'a')
         f.write('Access Token Successful')
+        f.write('\n')
         f.write(access_token)
+        f.write('\n')
         f.close()
         # Determine who the logged in user is
         headers = {
@@ -147,15 +151,19 @@ class GenericOAuthenticator(OAuthenticator):
             "User-Agent": "JupyterHub",
             "Authorization": "{} {}".format(token_type, access_token)
         }
-        url = url_concat(self.userdata_url, self.userdata_params)
-        f = open('myfile', 'a')
-        f.write(str(url))
-        f.close()
 
         req = HTTPRequest(url,
                           method=self.userdata_method,
-                          headers=headers,
+                          headers=headers
                           )
+        
+
+        url = url_concat(self.userdata_url, self.userdata_params)
+        f = open('myfile', 'a')
+        f.write('\n')
+        f.write(str(req))
+        f.write('\n')
+        f.close()
         resp = yield http_client.fetch(req)
         resp_json = json.loads(resp.body.decode('utf8', 'replace'))
         f = open('myfile', 'a')
