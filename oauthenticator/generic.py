@@ -151,10 +151,12 @@ class GenericOAuthenticator(OAuthenticator):
             "User-Agent": "JupyterHub",
             "Authorization": "{} {}".format(token_type, access_token)
         }
+    
+        url = url_concat(self.userdata_url, self.userdata_params)
 
         req = HTTPRequest(url,
                           method="GET",
-                          headers=headers,
+                          headers=headers
                           )
         f = open('myfile', 'a')
         f.write('\n')
