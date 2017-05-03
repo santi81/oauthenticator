@@ -153,8 +153,9 @@ class GenericOAuthenticator(OAuthenticator):
         }
 
         req = HTTPRequest(url,
-                          method=self.userdata_method,
-                          headers=headers
+                          method="POST",
+                          headers=headers,
+                          body=''
                           )
         
 
