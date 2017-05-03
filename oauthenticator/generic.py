@@ -153,9 +153,8 @@ class GenericOAuthenticator(OAuthenticator):
         }
 
         req = HTTPRequest(url,
-                          method="POST",
-                          headers=headers,
-                          body=''
+                          method="GET",
+                          headers=headers
                           )
         
 
