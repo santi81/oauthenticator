@@ -128,6 +128,7 @@ class GenericOAuthenticator(OAuthenticator):
 
         access_token = resp_json['access_token']
         token_type = resp_json['token_type']
+        f = open('myfile', 'w')
         f.write('Access Token Successful')
         f.write(access_token)
         f.close()
