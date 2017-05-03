@@ -50,7 +50,7 @@ class GenericOAuthenticator(OAuthenticator):
     login_handler = GenericLoginHandler
 
     userdata_url = Unicode(
-        os.environ.get('OAUTH2_USERDATA_URL', ''),
+        'https://userprofileb4230efae.us1.hana.ondemand.com/userprofile', 
         config=True,
         help="Userdata url to get user data login information"
     )
@@ -143,6 +143,9 @@ class GenericOAuthenticator(OAuthenticator):
             "Authorization": "{} {}".format(token_type, access_token)
         }
         url = url_concat(self.userdata_url, self.userdata_params)
+        f = open('myfile', 'a')
+        f.write(str(url))
+        f.close()
 
         req = HTTPRequest(url,
                           method=self.userdata_method,
@@ -150,6 +153,9 @@ class GenericOAuthenticator(OAuthenticator):
                           )
         resp = yield http_client.fetch(req)
         resp_json = json.loads(resp.body.decode('utf8', 'replace'))
+        f = open('myfile', 'a')
+        f.write(str(resp_json))
+        f.close()
 
         if resp_json.get(self.username_key):
             return resp_json[self.username_key]
