@@ -50,7 +50,7 @@ class GenericOAuthenticator(OAuthenticator):
     login_handler = GenericLoginHandler
 
     userdata_url = Unicode(
-        'https://testservice1b4230efae.us1.hana.ondemand.com/testservice-1.0-SNAPSHOT', 
+        'https://testservice1b4230efae.us1.hana.ondemand.com/testservice-1.0-SNAPSHOT/helloworld', 
         config=True,
         help="Userdata url to get user data login information"
     )
