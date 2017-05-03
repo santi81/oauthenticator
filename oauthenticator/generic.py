@@ -30,7 +30,7 @@ from .oauth2 import OAuthLoginHandler, OAuthenticator
 class GenericEnvMixin(OAuth2Mixin):
     #_OAUTH_AUTHORIZE_URL = "https://%s/login/oauth/authorize" % GITHUB_HOST
     #_OAUTH_ACCESS_TOKEN_URL = "https://%s/login/oauth/access_token" % GITHUB_HOST
-    _OAUTH_AUTHORIZE_URL = "https://oauthasservices-b4230efae.us1.hana.ondemand.com/oauth2/api/v1/authorize?response_type=code&client_id=cfee7772-3950-345e-9e1a-80927098fa6b&scope=full_access"
+    _OAUTH_AUTHORIZE_URL = "https://oauthasservices-b4230efae.us1.hana.ondemand.com/oauth2/api/v1/authorize?response_type=code&client_id=cfee7772-3950-345e-9e1a-80927098fa6b"
     _OAUTH_ACCESS_TOKEN_URL = "https://oauthasservices-b4230efae.us1.hana.ondemand.com/oauth2/api/v1/token"
    
 
@@ -84,12 +84,17 @@ class GenericOAuthenticator(OAuthenticator):
         # TODO: Configure the curl_httpclient for tornado
         http_client = AsyncHTTPClient()
 
+        #params = dict(
+        #    redirect_uri=self.get_callback_url(handler),
+        #    code=code,
+        #    grant_type='authorization_code',
+	#    client_id=self.client_id,
+        #    client_secret=self.client_secret
+        #)
         params = dict(
             redirect_uri=self.get_callback_url(handler),
             code=code,
-            grant_type='authorization_code',
-	    client_id=self.client_id,
-            client_secret=self.client_secret
+            grant_type='authorization_code'
         )
 
         url = url_concat(self.token_url, params)
