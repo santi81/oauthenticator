@@ -93,12 +93,24 @@ class GenericOAuthenticator(OAuthenticator):
         )
 
         url = url_concat(self.token_url, params)
-
+        
+        b64key = base64.b64encode(
+            bytes(
+                "{}:{}".format(self.client_id, self.client_secret),
+                "utf8"
+            )
+         )
+        f = open('myfile', 'w')
+        f.write('Base 64 Encoded Auth Key\n')
+        f.write(b64key)
+        f.close()
 
         headers = {
             "Accept": "application/json",
-            "User-Agent": "JupyterHub"
+            "User-Agent": "JupyterHub",
+            "Authorization": "Basic {}".format(b64key.decode("utf8"))
         }
+
         f = open('myfile', 'w')
         f.write('Request URL for the Token\n')
         f.write(url)
