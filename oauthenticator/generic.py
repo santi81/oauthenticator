@@ -102,7 +102,7 @@ class GenericOAuthenticator(OAuthenticator):
          )
         f = open('myfile', 'w')
         f.write('Base 64 Encoded Auth Key\n')
-        f.write(b64key)
+        f.write(string(b64key))
         f.close()
 
         headers = {
