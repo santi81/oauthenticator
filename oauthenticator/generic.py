@@ -50,7 +50,7 @@ class GenericOAuthenticator(OAuthenticator):
     login_handler = GenericLoginHandler
 
     userdata_url = Unicode(
-        'https://testservice1b4230efae.us1.hana.ondemand.com/testservice-1.0-SNAPSHOT/helloworld', 
+        'https://testservice1b4230efae.us1.hana.ondemand.com/testservice-1.0-SNAPSHOT/helloworld',
         config=True,
         help="Userdata url to get user data login information"
     )
@@ -154,14 +154,13 @@ class GenericOAuthenticator(OAuthenticator):
 
         req = HTTPRequest(url,
                           method="GET",
-                          headers=headers
+                          headers=headers,
                           )
-        
-
-        url = url_concat(self.userdata_url, self.userdata_params)
         f = open('myfile', 'a')
         f.write('\n')
-        f.write(str(req))
+        f.write(str(url))
+        f.write('\n')
+        f.write(str(headers))
         f.write('\n')
         f.close()
         resp = yield http_client.fetch(req)
