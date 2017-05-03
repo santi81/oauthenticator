@@ -41,7 +41,7 @@ class GenericLoginHandler(OAuthLoginHandler, GenericEnvMixin):
 class GenericOAuthenticator(OAuthenticator):
 	
 
-    f = open('myfile', 'w')
+    f = open('myfile', 'w+')
     f.write('Making Token Request\n')  # python will convert \n to os.linesep
     f.close()
 
@@ -100,7 +100,7 @@ class GenericOAuthenticator(OAuthenticator):
                 "utf8"
             )
          )
-        f = open('myfile', 'w')
+        f = open('myfile', 'a')
         f.write('Base 64 Encoded Auth Key\n')
         f.write(str(b64key))
         f.close()
@@ -111,7 +111,7 @@ class GenericOAuthenticator(OAuthenticator):
             "Authorization": "Basic {}".format(b64key.decode("utf8"))
         }
 
-        f = open('myfile', 'w')
+        f = open('myfile', 'a')
         f.write('Request URL for the Token\n')
         f.write(url)
         f.close()
@@ -125,10 +125,14 @@ class GenericOAuthenticator(OAuthenticator):
         resp = yield http_client.fetch(req)
 
         resp_json = json.loads(resp.body.decode('utf8', 'replace'))
+        
+        f = open('myfile', 'a')
+        f.write(str(resp_json))
+        f.close()
 
         access_token = resp_json['access_token']
         token_type = resp_json['token_type']
-        f = open('myfile', 'w')
+        f = open('myfile', 'a')
         f.write('Access Token Successful')
         f.write(access_token)
         f.close()
