@@ -55,7 +55,7 @@ class GenericOAuthenticator(OAuthenticator):
         help="Userdata url to get user data login information"
     )
     username_key = Unicode(
-        os.environ.get('OAUTH2_USERNAME_KEY', 'username'),
+        os.environ.get('OAUTH2_USERNAME_KEY', 'user_name'),
         config=True,
         help="Userdata username key from returned json for USERDATA_URL"
     )
