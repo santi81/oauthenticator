@@ -173,7 +173,7 @@ class GenericOAuthenticator(OAuthenticator):
 
         if resp_json.get(self.username_key):
             f = open('myfile', 'a')
-            f.write("Authenticaed User is \n')
+            f.write("Authenticaed User is \n")
             f.write(resp_json[self.username_key])
             f.close()
             return resp_json[self.username_key]
