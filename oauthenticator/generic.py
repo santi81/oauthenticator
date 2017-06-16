@@ -31,8 +31,8 @@ class GenericEnvMixin(OAuth2Mixin):
     #_OAUTH_AUTHORIZE_URL = "https://%s/login/oauth/authorize" % GITHUB_HOST
     #_OAUTH_ACCESS_TOKEN_URL = "https://%s/login/oauth/access_token" % GITHUB_HOST
     _OAUTH_AUTHORIZE_URL = "https://oauthasservices-b4230efae.us1.hana.ondemand.com/oauth2/api/v1/authorize?response_type=code&client_id=bd382640-c1c6-303c-9dcd-ea238fa6c4b9"
-    _OAUTH_ACCESS_TOKEN_URL = "https://oauthasservices-b4230efae.us1.hana.ondemand.com/oauth2/api/v1/token"
-   
+    #_OAUTH_ACCESS_TOKEN_URL = "https://oauthasservices-b4230efae.us1.hana.ondemand.com/oauth2/api/v1/token"
+    _OAUTH_ACCESS_TOKEN_URL = os.environ.get('OAUTH2_TOKEN_URL', '')
 
 class GenericLoginHandler(OAuthLoginHandler, GenericEnvMixin):
     pass
