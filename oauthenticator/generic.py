@@ -49,11 +49,18 @@ class GenericOAuthenticator(OAuthenticator):
 
     login_handler = GenericLoginHandler
 
+    #userdata_url = Unicode(
+    #    'https://testservice1b4230efae.us1.hana.ondemand.com/testservice-1.0-SNAPSHOT/helloworld',
+    #    config=True,
+    #    help="Userdata url to get user data login information"
+    #)
+
     userdata_url = Unicode(
-        'https://testservice1b4230efae.us1.hana.ondemand.com/testservice-1.0-SNAPSHOT/helloworld',
+        os.environ.get('OAUTH2_USERDATA_URL', ''),
         config=True,
         help="Userdata url to get user data login information"
     )
+
     username_key = Unicode(
         os.environ.get('OAUTH2_USERNAME_KEY', 'user_name'),
         config=True,
