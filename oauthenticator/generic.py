@@ -28,10 +28,6 @@ from .oauth2 import OAuthLoginHandler, OAuthenticator
 
 
 class GenericEnvMixin(OAuth2Mixin):
-    #_OAUTH_AUTHORIZE_URL = "https://%s/login/oauth/authorize" % GITHUB_HOST
-    #_OAUTH_ACCESS_TOKEN_URL = "https://%s/login/oauth/access_token" % GITHUB_HOST
-    #_OAUTH_AUTHORIZE_URL = "https://oauthasservices-b4230efae.us1.hana.ondemand.com/oauth2/api/v1/authorize?response_type=code&client_id=bd382640-c1c6-303c-9dcd-ea238fa6c4b9"
-    #_OAUTH_ACCESS_TOKEN_URL = "https://oauthasservices-b4230efae.us1.hana.ondemand.com/oauth2/api/v1/token"
     _OAUTH_AUTHORIZE_URL = os.environ.get('OAUTH2_AUTHORIZE_URL', '')
     _OAUTH_ACCESS_TOKEN_URL = os.environ.get('OAUTH2_TOKEN_URL', '')
 
@@ -40,21 +36,10 @@ class GenericLoginHandler(OAuthLoginHandler, GenericEnvMixin):
 
 
 class GenericOAuthenticator(OAuthenticator):
-	
-
-    f = open('myfile', 'w+')
-    f.write('Making Token Request\n')  # python will convert \n to os.linesep
-    f.close()
 
     login_service = "GenericOAuth2"
 
     login_handler = GenericLoginHandler
-
-    #userdata_url = Unicode(
-    #    'https://testservice1b4230efae.us1.hana.ondemand.com/testservice-1.0-SNAPSHOT/helloworld',
-    #    config=True,
-    #    help="Userdata url to get user data login information"
-    #)
 
     userdata_url = Unicode(
         os.environ.get('OAUTH2_USERDATA_URL', ''),
@@ -92,13 +77,6 @@ class GenericOAuthenticator(OAuthenticator):
         # TODO: Configure the curl_httpclient for tornado
         http_client = AsyncHTTPClient()
 
-        #params = dict(
-        #    redirect_uri=self.get_callback_url(handler),
-        #    code=code,
-        #    grant_type='authorization_code',
-	#    client_id=self.client_id,
-        #    client_secret=self.client_secret
-        #)
         params = dict(
             redirect_uri=self.get_callback_url(handler),
             code=code,
@@ -113,23 +91,11 @@ class GenericOAuthenticator(OAuthenticator):
                 "utf8"
             )
          )
-        f = open('myfile', 'a')
-        f.write('Base 64 Encoded Auth Key\n')
-        f.write(str(b64key))
-        f.write('\n')
-        f.close()
-
         headers = {
             "Accept": "application/json",
             "User-Agent": "JupyterHub",
             "Authorization": "Basic {}".format(b64key.decode("utf8"))
         }
-
-        f = open('myfile', 'a')
-        f.write('Request URL for the Token\n')
-        f.write(url)
-        f.write('\n')
-        f.close()
 
         req = HTTPRequest(url,
                           method="POST",
@@ -141,18 +107,8 @@ class GenericOAuthenticator(OAuthenticator):
 
         resp_json = json.loads(resp.body.decode('utf8', 'replace'))
         
-        f = open('myfile', 'a')
-        f.write(str(resp_json))
-        f.close()
-
         access_token = resp_json['access_token']
         token_type = resp_json['token_type']
-        f = open('myfile', 'a')
-        f.write('Access Token Successful')
-        f.write('\n')
-        f.write(access_token)
-        f.write('\n')
-        f.close()
         # Determine who the logged in user is
         headers = {
             "Accept": "application/json",
@@ -166,24 +122,10 @@ class GenericOAuthenticator(OAuthenticator):
                           method="GET",
                           headers=headers
                           )
-        f = open('myfile', 'a')
-        f.write('\n')
-        f.write(str(url))
-        f.write('\n')
-        f.write(str(headers))
-        f.write('\n')
-        f.close()
         resp = yield http_client.fetch(req)
         resp_json = json.loads(resp.body.decode('utf8', 'replace'))
-        f = open('myfile', 'a')
-        f.write(str(resp_json))
-        f.close()
 
         if resp_json.get(self.username_key):
-            f = open('myfile', 'a')
-            f.write("Authenticaed User is \n")
-            f.write(resp_json[self.username_key])
-            f.close()
             return resp_json[self.username_key]
 
 
