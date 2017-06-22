@@ -77,13 +77,6 @@ class GenericOAuthenticator(OAuthenticator):
             raise web.HTTPError(400, "oauth callback made without a token")
         # TODO: Configure the curl_httpclient for tornado
         
-        config = {
-            'proxy_host': 'proxy.pal.sap.corp',
-            'proxy_port': 8080
-          }
-    
-        tornado.httpclient.AsyncHTTPClient.configure("tornado.curl_httpclient.CurlAsyncHTTPClient")
-    
         http_client = AsyncHTTPClient()
 
         params = dict(
@@ -105,13 +98,16 @@ class GenericOAuthenticator(OAuthenticator):
             "User-Agent": "JupyterHub",
             "Authorization": "Basic {}".format(b64key.decode("utf8"))
         }
+        
+        proxy_host = os.environ.get('PROXY_HOST', '')
+        proxy_port = os.environ.get('PROXY_PORT', '')
 
         req = HTTPRequest(url,
                           method="POST",
                           headers=headers,
                           body='',  # Body is required for a POST...
-                          proxy_host="proxy.pal.sap.corp",
-                          proxy_port=8080
+                          proxy_host=proxy_host,
+                          proxy_port=proxy_port
                           )
 
         resp = yield http_client.fetch(req)
@@ -132,8 +128,8 @@ class GenericOAuthenticator(OAuthenticator):
         req = HTTPRequest(url,
                           method="GET",
                           headers=headers,
-                          proxy_host="proxy.pal.sap.corp",
-                          proxy_port=8080
+                          proxy_host=proxy_host,
+                          proxy_port=proxy_port
                           )
         resp = yield http_client.fetch(req)
         resp_json = json.loads(resp.body.decode('utf8', 'replace'))
