@@ -80,8 +80,9 @@ class GenericOAuthenticator(OAuthenticator):
             'proxy_host': 'proxy.pal.sap.corp',
             'proxy_port': 8080
           }
-    httpclient.AsyncHTTPClient.configure(
-    "tornado.curl_httpclient.CurlAsyncHTTPClient", config)
+    
+        httpclient.AsyncHTTPClient.configure(
+        "tornado.curl_httpclient.CurlAsyncHTTPClient", config)
     
         http_client = AsyncHTTPClient()
 
