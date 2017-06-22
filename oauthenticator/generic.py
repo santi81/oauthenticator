@@ -82,7 +82,7 @@ class GenericOAuthenticator(OAuthenticator):
           }
     
         AsyncHTTPClient.configure(
-        "tornado.curl_httpclient.CurlAsyncHTTPClient", config)
+        "tornado.curl_httpclient.CurlAsyncHTTPClient")
     
         http_client = AsyncHTTPClient()
 
@@ -112,7 +112,7 @@ class GenericOAuthenticator(OAuthenticator):
                           body=''  # Body is required for a POST...
                           )
 
-        resp = yield http_client.fetch(req)
+        resp = yield http_client.fetch(req, **config)
 
         resp_json = json.loads(resp.body.decode('utf8', 'replace'))
         
