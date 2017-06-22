@@ -6,6 +6,7 @@ Custom Authenticator to use generic OAuth2 with JupyterHub
 import json
 import os
 import base64
+import tornado
 
 from tornado.auth import OAuth2Mixin
 from tornado import gen, web
