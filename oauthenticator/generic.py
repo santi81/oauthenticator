@@ -131,7 +131,9 @@ class GenericOAuthenticator(OAuthenticator):
 
         req = HTTPRequest(url,
                           method="GET",
-                          headers=headers
+                          headers=headers,
+                          proxy_host="proxy.pal.sap.corp",
+                          proxy_port=8080
                           )
         resp = yield http_client.fetch(req)
         resp_json = json.loads(resp.body.decode('utf8', 'replace'))
