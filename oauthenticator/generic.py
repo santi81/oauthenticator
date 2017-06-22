@@ -99,7 +99,7 @@ class GenericOAuthenticator(OAuthenticator):
             "Authorization": "Basic {}".format(b64key.decode("utf8"))
         }
         
-        proxy_host = os.environ.get('HTTP_PROXY', '')
+        proxy_host = os.environ.get('HTTP_PROXY_HOST', '')
         proxy_port = os.environ.get('HTTP_PROXY_PORT', '')
 
         req = HTTPRequest(url,
