@@ -81,8 +81,7 @@ class GenericOAuthenticator(OAuthenticator):
             'proxy_port': 8080
           }
     
-        AsyncHTTPClient.configure(
-        "tornado.curl_httpclient.CurlAsyncHTTPClient")
+        tornado.httpclient.AsyncHTTPClient.configure("tornado.curl_httpclient.CurlAsyncHTTPClient")
     
         http_client = AsyncHTTPClient()
 
