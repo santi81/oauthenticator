@@ -100,16 +100,24 @@ class GenericOAuthenticator(OAuthenticator):
         }
         
         proxy_host = os.environ.get('HTTP_PROXY_HOST', '')
-        proxy_port = os.environ.get('HTTP_PROXY_PORT', '')
-
-        req = HTTPRequest(url,
+        port = os.environ.get('HTTP_PROXY_PORT', '')
+        
+        if proxy_host and port:
+            proxy_port = int(port)
+            req = HTTPRequest(url,
                           method="POST",
                           headers=headers,
                           body='',  # Body is required for a POST...
                           proxy_host=proxy_host,
                           proxy_port=proxy_port
                           )
-
+        else:
+            req = HTTPRequest(url,
+                          method="POST",
+                          headers=headers,
+                          body=''
+                          )
+        
         resp = yield http_client.fetch(req)
 
         resp_json = json.loads(resp.body.decode('utf8', 'replace'))
