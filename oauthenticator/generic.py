@@ -75,6 +75,14 @@ class GenericOAuthenticator(OAuthenticator):
         if not code:
             raise web.HTTPError(400, "oauth callback made without a token")
         # TODO: Configure the curl_httpclient for tornado
+        
+        config = {
+            'proxy_host': 'proxy.pal.sap.corp',
+            'proxy_port': 8080
+          }
+    httpclient.AsyncHTTPClient.configure(
+    "tornado.curl_httpclient.CurlAsyncHTTPClient", config)
+    
         http_client = AsyncHTTPClient()
 
         params = dict(
