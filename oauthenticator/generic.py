@@ -133,12 +133,20 @@ class GenericOAuthenticator(OAuthenticator):
     
         url = url_concat(self.userdata_url, self.userdata_params)
 
-        req = HTTPRequest(url,
+        if proxy_host and port:
+            proxy_port = int(port)
+            req = HTTPRequest(url,
                           method="GET",
                           headers=headers,
                           proxy_host=proxy_host,
                           proxy_port=proxy_port
                           )
+        else:
+            req = HTTPRequest(url,
+                          method="GET",
+                          headers=headers
+                          )
+           
         resp = yield http_client.fetch(req)
         resp_json = json.loads(resp.body.decode('utf8', 'replace'))
 
