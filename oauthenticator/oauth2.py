@@ -50,10 +50,10 @@ class OAuthCallbackHandler(BaseHandler):
     def get(self):
         # TODO: Check if state argument needs to be checked
         username = yield self.authenticator.get_authenticated_user(self, None)
-        print("UserName could be an issue")
-        print("******")
-        print(username)
-        print("*****")
+        self.log.info("UserName could be an issue")
+        self.log.info("******")
+        self.log.info(username)
+        self.log.info("*****")
         if username:
             user = self.user_from_username(username)
             self.set_login_cookie(user)
